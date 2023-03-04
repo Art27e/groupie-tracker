@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link href="https://fonts.cdnfonts.com/css/circular-std" rel="stylesheet">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel = "icon" href ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAYJJREFUSEvllf0xRDEUR89WgA50gArQARWgElSCCugAFaCCLQEdmDOTmGy8vNw3+8aOcf/afcnNuV/5ZcGGbLEhLn8afA4sgecp1Zsj4w9gC7gDDCJk64L3gZdEugBuQ1RYu8dmeJNgB8Drb4HN8Az4BLajUPetW2oz3EuDdTQ32HIeAvawNDN8Tx+ugav02yo89frdyziX0jPr4THDxwQ7TrCy5/rWwX4H3gKbjYc6tZo9FFQOjxlepvUdwGvlfrP1emnuNyjXVmwIrLPQPCxvCVo7C7AFrucAPVw/1+y9pp/wlYmvwWWpdBoThZ5wlG360aoSfALcF/UYE4SocNSJnAIP9XWaAo4KRwhsIPXG1mRGhCNc6lzlyGSOCUfkRjSVa2wyW8Jh4NEb0ZXMIQEZEo5crbJVo89kT7ly34Xlt3ZIOEpxmEUya8Hxf0s4hvY2v0Uyrp17whEKYCo4Khxd+FRwVDhmB0eEowutJTPkkF6q3d5D3ztsaql754XX/x/4C7SvZR+uZb5OAAAAAElFTkSuQmCC" type = "image/x-icon">
+        <title>Groupie Tracker</title>
+    </head>
+    <body>
+        <div class="logo-container">
+        <div class="logo">
+            <i class='bx bxs-music'></i>
+            </div>
+            <div class="header">
+            <h1 class="page-header">Groupie-Tracker</h1>
+        </div>
+    </div>
+    <br>
+    <div class="search-container">
+        <form action="/search" class="search">
+        <input type="text" class="search" name="artist" list="artists" placeholder="Search anything" autocomplete="off" required>
+            <button type="submit" class="search-button"><img class="search-pic" src="https://i.ibb.co/VJ4hjfc/search.png" alt="searchpng"/></button>
+            <datalist id="artists">
+                     <!-- Band name -->
+              {{range $i, $a := .ArtistInfo }}
+              <option value="{{.Name}}">Band</option>
+              {{end}}
+              <!-- Members -->
+              {{range $i, $a := .ArtistInfo }}
+              {{range $a.Members}}
+              <option value="{{.}}">Member</option>
+              {{end}}
+              {{end}}
+              <!-- First Album -->
+              {{range $i, $a := .ArtistInfo }}
+              <option value="{{.FirstAlbum}}">First Album Date</option>
+              {{end}}
+              <!-- Creation Date -->
+              {{range .Search.Date}}
+             <option value="{{.}}">Creation Date</option>
+             {{end}}
+             <!-- Locations -->
+              {{range .Search.Locs}}
+           <option value="{{ . }}">Concert Location</option>
+           {{ end }}
+            </datalist>
+          </form>
+        </div>
+        <div class="row">
+            {{ range .ArtistInfo}}
+            <div class="group-card" onclick="location.href='/artist/{{ .Number }}';" style="cursor: pointer;">
+                <img class="card-image" src="{{.Image}}"></img>
+                <div class="card-header">
+                    <h2>{{ .Name }}</h2>
+                </div>
+                <div class="card-text">
+                <h3>Formed in {{ .Date }}</h3>
+                <h3>First album: {{ .FirstAlbum }}</h3>
+                <h3>Members: {{ len .Members }}</h3>
+            </div>
+            <h5>Members:</h5> 
+            {{ $len := len .Members }}
+            {{ $finalIndex := len (slice (printf "%*s" $len "") 1) }} 
+            <p class="main-card">{{ range $i, $elem := .Members }}
+                {{ if eq $finalIndex $i }}
+                {{ $elem }}
+                {{ else }}
+                {{ $elem }},
+                {{ end }} 
+                {{ end }}</p>
+        </div>
+        {{ end }}
+    </div>
+    </body>
+    </html>
