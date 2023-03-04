@@ -1,7 +1,7 @@
-# groupie-tracker-search-bar
+# groupie-tracker
 
 ![Desktop image](https://i.ibb.co/xzRjHyF/desktop.jpg)
-![Mobile image](https://i.ibb.co/2vVrXS9/mobile.jpg)
+![Mobile image](https://i.ibb.co/2vVrXS9/mobile.jpg =80x100)
 
 ##### Instructions
 1. Run the server
