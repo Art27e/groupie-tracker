@@ -1,6 +1,6 @@
 # groupie-tracker
 <table><tr>
-<td> <img src="https://i.ibb.co/xzRjHyF/desktop.jpg" alt="Desktop image" width="900" height="600"/> </td>
+<td> <img src="https://i.ibb.co/xzRjHyF/desktop.jpg" alt="Desktop image" width="600" height="300"/> </td>
 <td> <img src="https://i.ibb.co/2vVrXS9/mobile.jpg" alt="Mobile image" width="200" height="400"/> </td>
 </tr></table>
 ##### Instructions
