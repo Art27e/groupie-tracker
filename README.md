@@ -9,5 +9,9 @@
 > go run .
 2. Open http://localhost:8080
 
+##### Updates
+dec 2023 - geolocalization was added (Yandex Maps)
+
+
 ##### Information
 Task for kood/Jõhvi school.

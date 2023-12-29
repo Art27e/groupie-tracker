@@ -20,6 +20,7 @@ type Artist struct {
 	Date       int      `json:"creationDate"`
 	FirstAlbum string   `json:"firstAlbum"`
 	Relation   map[string][]string
+	ConcertsMap map[string]string
 }
 
 type SearchInfo struct {
@@ -31,6 +32,7 @@ type Relation struct {
 	Index []struct {
 		Id        int                 `json:"id"`
 		Relations map[string][]string `json:"datesLocations"`
+		ConcertsMap map[string]string
 	} `json:"index"`
 }
 
@@ -41,4 +43,6 @@ var (
 	Searching     SearchInfo // for Search suggestions
 	ArtistInfo    []Artist   // Artists information
 	SearchData    []Artist   // Artists information for Search results page
+	YandexMapsApiKey = "ab421167-6629-47f8-b0b0-383cb58a54c7"
+	Coordsmap  map[string]string
 )

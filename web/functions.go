@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"groupietracker/data"
+	"html/template"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"reflect"
 	"regexp"
 	"strings"
@@ -99,6 +101,44 @@ func DataFormat() {
 		}
 		data.ArtistInfo[x].Relation = tempMap
 	}
+}
+
+func MakeCoords(id int) {
+	var result map[string]interface{}
+	coordsmap := make(map[string]string)
+	for key := range data.ArtistInfo[id].Relation {
+		cityName := key
+		apiURL := fmt.Sprintf("https://geocode-maps.yandex.ru/1.x/?apikey=%s&geocode=%s&format=json", data.YandexMapsApiKey, url.QueryEscape(cityName))
+		response := getAPI(apiURL)
+
+		if json.Valid([]byte(response)) {
+			if err := json.Unmarshal([]byte(response), &result); err != nil {
+				panic(err)
+			}
+
+			// check for coords in response
+			GeoObjectCollection, ok := result["response"].(map[string]interface{})["GeoObjectCollection"].(map[string]interface{})
+			if !ok {
+				fmt.Println("Координаты не найдены.")
+				return
+			}
+
+			// get coords
+			FeatureMember := GeoObjectCollection["featureMember"].([]interface{})
+			Point := ""
+			if len(FeatureMember) > 0 {
+				Point = FeatureMember[0].(map[string]interface{})["GeoObject"].(map[string]interface{})["Point"].(map[string]interface{})["pos"].(string)
+			} else {
+				fmt.Println("Координаты не найдены.")
+			}
+			coordsmap[cityName] = Point
+			data.HomePageData.ArtistInfo[id].ConcertsMap = coordsmap
+		}
+	}
+}
+
+func JsEscape(s string) template.JS {
+	return template.JS(s)
 }
 
 func SearchSuggest() {
